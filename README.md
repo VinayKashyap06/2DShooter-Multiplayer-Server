@@ -1,2 +1,4 @@
 # Multiplayer-Server
-Multiplayer Server Side scripting, Node JS
+Multiplayer Server Side scripting using Node JS and socket.io
+
+Currently under dev
