@@ -10,5 +10,7 @@ io.on('connection', function (socket) {
 
     socket.on(ServerEvents.MOVE_FORWARD,function(data){
         console.log("move forward called");
+        
+        socket.emit(ServerEvents.ON_MOVE_FORWARD);
     });
 });
