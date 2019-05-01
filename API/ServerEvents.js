@@ -1,5 +1,6 @@
 module.exports={
     ON_USER_CONNECTED : "onUserConnected",
+    ON_OPPONENT_CONNECTED : "onOpponentConnected",
     ON_MOVE_FORWARD : "onMoveForward",
     ON_MOVE_BACKWARD : "onMoveBackward",
     ON_MOVE_LEFT : "onMoveLeft",

@@ -1,14 +1,17 @@
-module.exports=class Player{
-    constructor(){
-    this.position=null;
+var shortID = require("shortid");
+module.exports = class Player {
+    constructor() {
+        this.playerName = "";
+        this.playerID= shortID.generate();
+        this.position = null;
     }
-    MoveForward(){
+    MoveForward() {
 
     }
-    MoveBackward(){
+    MoveBackward() {
 
     }
-    Jump(){
+    Jump() {
 
     }
 }
