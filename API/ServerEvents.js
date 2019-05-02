@@ -6,8 +6,8 @@ module.exports={
     ON_MOVE_LEFT : "onMoveLeft",
     ON_MOVE_RIGHT : "onMoveRight",
     ON_PLAYER_JUMP : "onPlayerJump",
+    ON_USER_DISCONNECTED: "onUserDisconnected",        
     
-    
-    
-    MOVE_FORWARD : "moveForward"
+    MOVE_FORWARD : "moveForward",
+    MOVE_BACKWARD : "moveBackward"    
 }

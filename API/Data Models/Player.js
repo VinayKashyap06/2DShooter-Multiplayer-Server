@@ -11,17 +11,20 @@ module.exports = class Player {
             position: this.position
         });
         // this.body.createFixture({
-        //     shape: planck.Edge()
+        //     shape: planck.Box(5,5,planck.Vec2(this.position.x,this.position.y),0)
         // });
+        
     }
     MoveForward() {      
         //this.body'
-        this.body.c_position= planck.Vec3(this.position.x*WorldPhysics.frameRate,this.position.y*WorldPhysics.frameRate,this.position.z+1*WorldPhysics.frameRate);
+        this.body.c_position= planck.Vec3(this.position.x,this.position.y,this.position.z+1*WorldPhysics.frameRate);
         this.position= this.body.c_position;
         return this.position;
     }
     MoveBackward() {
-
+        this.body.c_position= planck.Vec3(this.position.x,this.position.y,this.position.z-1*WorldPhysics.frameRate);
+        this.position= this.body.c_position;
+        return this.position;
     }
     Jump() {
 
