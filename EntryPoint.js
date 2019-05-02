@@ -18,11 +18,14 @@ io.on('connection', function (socket) {
     socket.emit(ServerEvents.ON_USER_CONNECTED,{playerID: playerID});//PlayerID for myself
     
     var opponentData= {
-        //opponentID: playerID,
-        opponentName: player.playerName
+        opponentID: playerID
+       // opponentName: player.playerName
     }
 
     socket.broadcast.emit(ServerEvents.ON_OPPONENT_CONNECTED, opponentData);
+
+    
+
     socket.on(ServerEvents.MOVE_FORWARD,function(data){
         console.log("move forward called");
         socket.emit(ServerEvents.ON_MOVE_FORWARD);
