@@ -14,21 +14,21 @@ io.on('connection', function (socket) {
     socketList[playerID]= socket;
 
     console.log('A user connected');  
+    console.log('player pos '+player.position);
 
-    socket.emit(ServerEvents.ON_USER_CONNECTED,{playerID: playerID});//PlayerID for myself
+    socket.emit(ServerEvents.ON_USER_CONNECTED,{playerID: playerID, playerPosition: player.position});//PlayerID for myself
     
     var opponentData= {
-        opponentID: playerID
-       // opponentName: player.playerName
+        opponentID: playerID,
+        opponentPosition : player.position
     }
 
     socket.broadcast.emit(ServerEvents.ON_OPPONENT_CONNECTED, opponentData);
 
-    
-
     socket.on(ServerEvents.MOVE_FORWARD,function(data){
         console.log("move forward called");
-        socket.emit(ServerEvents.ON_MOVE_FORWARD);
+       var newpos= player.MoveForward();
+        socket.emit(ServerEvents.ON_MOVE_FORWARD,{newPosition : newpos});
     });
     socket.on("disconnect",function(data){
         console.log("disconnected player");
