@@ -57,8 +57,7 @@ io.on('connection', function (socket) {
        
 
         SocketData.SendData(nextFrame,loopData);
-        console.log("sent data for frame no"+nextFrame+"data"+ JSON.stringify(loopData));
-        //loopData={};
+        console.log("sent data for frame no"+nextFrame+"data"+ JSON.stringify(loopData));      
         // socket.emit(ServerEvents.ON_MOVE_FORWARD, { playerID: player.playerID, newPosition: newpos });
         // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
     });

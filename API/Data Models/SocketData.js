@@ -11,6 +11,7 @@ var SendData=function SendData(frameNo, data) {
     var keys = Object.keys(socketList);
     for (var i = 0; i < keys.length; i++) {
         socketList[keys[i]].emit(ServerEvents.ON_ADD_FRAME_DATA, { frameNo: frameNo, playerID: keys[i], data: data });
+       
     }
 }
 var AddSocket= function AddSocket(socket,key){
