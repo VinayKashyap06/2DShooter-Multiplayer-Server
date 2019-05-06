@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
 
     socket.on(ServerEvents.MOVE_FORWARD, function (data) {
         //console.log("move forward called");
-        var newpos = player.MoveForward();
+        var newpos = player.MoveUp();
         var nextFrame= FrameService.GetCurrentFrame()+3;
         var playerData={
             playerID: player.playerID,
@@ -62,13 +62,30 @@ io.on('connection', function (socket) {
         // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
     });
     socket.on(ServerEvents.MOVE_BACKWARD, function (data) {
-        var newpos = player.MoveBackward();
-        socket.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
-        socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
+        var newpos = player.MoveDown();
+        var nextFrame= FrameService.GetCurrentFrame()+10;
+        var playerData={
+            playerID: player.playerID,
+            newPosition:newpos
+        }
+        var loopData={
+            data: playerData,
+            eventName: ServerEvents.ON_MOVE_FORWARD,
+            frameNo:nextFrame
+        }       
+        SocketData.SendData(nextFrame,loopData);
+        console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
+        // socket.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
+        // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
+    });
+    socket.on(ServerEvents.Fire,function(data){
+        player.FireBullet();
+
     });
     socket.on("disconnect", function (data) {
-        console.log("disconnected player");
-        socket.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: player.playerID });
+        console.log("disconnected player"+playerID);
+        socket.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: playerID });
+        socket.broadcast.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: playerID });
         delete playerList[playerID];
         SocketData.RemoveSocket(playerID);
         socketList = SocketData.socketList;

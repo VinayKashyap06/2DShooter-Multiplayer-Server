@@ -10,5 +10,6 @@ module.exports={
     ON_ADD_FRAME_DATA : "onAddFrameData",      
     
     MOVE_FORWARD : "moveForward",
-    MOVE_BACKWARD : "moveBackward"    
+    MOVE_BACKWARD : "moveBackward",
+    FIRE: "fire"  
 }
