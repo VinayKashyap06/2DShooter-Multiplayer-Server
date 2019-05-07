@@ -11,41 +11,42 @@ module.exports = class Player {
             type: "dynamic",
             position: this.position
         });
+        this.body.c_position=this.position;
         this.body.createFixture(planck.Box(1,1));
         this.bullet= null;
         
     }
     MoveUp() {      
-        //this.body'
-
+        //this.body
+        if(!this.IsInBounds()){
+            return this.position;
+        }
         this.body.c_position= planck.Vec3(this.position.x,this.position.y+1*WorldPhysics.frameRate,this.position.z);
         this.position= this.body.c_position;
         return this.position;
     }
     MoveDown() {
+        if(!this.IsInBounds()){
+            return this.position;
+        }
         this.body.c_position= planck.Vec3(this.position.x,this.position.y-1*WorldPhysics.frameRate,this.position.z);
         this.position= this.body.c_position;
         return this.position;
-    }
-    Jump() {
+        }
 
-    }
 
     GetRandomFromArray(array) {    
         var randomnumber = Math.floor(Math.random() * (array.length - 0 + 1)) + 0;
         return array[randomnumber];
     }
-    FireBullet(){
-        // var bulletPosition=this.position+ planck.Vec3(0,0,0.5);
-        // this.bullet= WorldPhysics.world.createBody({
-        //    type: "dynamic",
-        //     position: bulletPosition,
-        //     linearVelocity: bulletPosition* Bullet.bulletSpeed,
-        //     linearDamping: 0            
-        // });
+    FireBullet(){        
         Bullet.CreateBullet(this.position);
+    }
 
-
+    IsInBounds(){        
+        console.log("current position"+JSON.stringify(this.body.c_position));
+        return (this.body.c_position.x>=WorldPhysics.xbounds.x && this.body.c_position.x <= WorldPhysics.xbounds.y &&
+        this.body.c_position.y>=WorldPhysics.ybounds.x && this.body.c_position.y <= WorldPhysics.ybounds.y)
     }
 
 }

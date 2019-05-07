@@ -3,7 +3,7 @@ var SocketSettings = require("./API/ServerSettings/SocketSettings");
 var ServerEvents = require("./API/ServerSettings/ServerEvents");
 var Player = require("./API/Data Models/Player");
 var FrameService = require("./API/FrameService");
-//var gameLoop = require("node-gameloop");
+var WorldPhysics = require("./API/WorldPhysics");
 var SocketData= require("./API/Data Models/SocketData");
 
 
@@ -22,6 +22,7 @@ io.on('connection', function (socket) {
     SocketData.AddSocket(socket,playerID);
     socketList = SocketData.socketList;
     console.log('A user connected on frame no' + FrameService.GetCurrentFrame());
+    var obstacleData= WorldPhysics.obstacleData;    
     socket.emit(ServerEvents.ON_USER_CONNECTED, { playerID: playerID, playerPosition: player.position, startFrame: FrameService.GetCurrentFrame() });
 
     var keys = Object.keys(playerList);
@@ -57,13 +58,13 @@ io.on('connection', function (socket) {
        
 
         SocketData.SendData(nextFrame,loopData);
-        console.log("sent data for frame no"+nextFrame+"data"+ JSON.stringify(loopData));      
+        //console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
         // socket.emit(ServerEvents.ON_MOVE_FORWARD, { playerID: player.playerID, newPosition: newpos });
         // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
     });
     socket.on(ServerEvents.MOVE_BACKWARD, function (data) {
         var newpos = player.MoveDown();
-        var nextFrame= FrameService.GetCurrentFrame()+10;
+        var nextFrame= FrameService.GetCurrentFrame()+3;
         var playerData={
             playerID: player.playerID,
             newPosition:newpos
@@ -74,7 +75,7 @@ io.on('connection', function (socket) {
             frameNo:nextFrame
         }       
         SocketData.SendData(nextFrame,loopData);
-        console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
+        //console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
         // socket.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
         // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
     });
@@ -84,7 +85,7 @@ io.on('connection', function (socket) {
     });
     socket.on("disconnect", function (data) {
         console.log("disconnected player"+playerID);
-        socket.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: playerID });
+        //socket.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: playerID });
         socket.broadcast.emit(ServerEvents.ON_USER_DISCONNECTED, { playerID: playerID });
         delete playerList[playerID];
         SocketData.RemoveSocket(playerID);
