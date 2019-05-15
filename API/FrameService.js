@@ -1,5 +1,6 @@
 var gameLoop = require("node-gameloop");
 var SocketData= require("./Data Models/SocketData");
+var WorldPhysics= require('./WorldPhysics');
 var currentFrame=0;
 var data={
 
@@ -15,6 +16,7 @@ var loopID=gameLoop.setGameLoop(function(){
     //console.log("deltaTime"+deltaTime);
     currentFrame=currentFrame+1;
     SocketData.SendData(currentFrame,data); 
+    WorldPhysics.world.step=1000/30;
     //nt=Date.now();
 },1000/30);
 

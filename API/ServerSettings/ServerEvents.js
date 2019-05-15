@@ -7,7 +7,8 @@ module.exports={
     ON_MOVE_RIGHT : "onMoveRight",
     ON_PLAYER_JUMP : "onPlayerJump",
     ON_USER_DISCONNECTED: "onUserDisconnected",  
-    ON_ADD_FRAME_DATA : "onAddFrameData",      
+    ON_ADD_FRAME_DATA : "onAddFrameData",
+    ON_FIRE: "onFire",      
     
     MOVE_FORWARD : "moveForward",
     MOVE_BACKWARD : "moveBackward",

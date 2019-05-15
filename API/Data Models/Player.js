@@ -40,7 +40,9 @@ module.exports = class Player {
         return array[randomnumber];
     }
     FireBullet(){        
-        Bullet.CreateBullet(this.position);
+        var newBullet=Bullet.CreateBullet(this.position); 
+       // console.log("newbuleet in player "+ JSON.stringify(newBullet));       
+        return newBullet.m_linearVelocity;
     }
 
     IsInBounds(){        

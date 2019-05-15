@@ -9,6 +9,7 @@
   "author": "Vinay Kashyap",
   "license": "ISC",
   "dependencies": {
+    "gameupdate-loop": "^1.0.1",
     "node-gameloop": "^0.1.4",
     "planck-js": "^0.3.5",
     "shortid": "^2.2.14",
