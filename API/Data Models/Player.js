@@ -7,6 +7,7 @@ module.exports = class Player {
         this.playerName = "";
         this.playerID = shortID.generate();
         this.position = this.GetRandomFromArray(WorldPhysics.spawnPoints);      
+        //console.log("position player constructor"+this.position);
         this.body = WorldPhysics.world.createBody({
             type: "dynamic",
             position: this.position
@@ -39,14 +40,14 @@ module.exports = class Player {
         var randomnumber = Math.floor(Math.random() * (array.length - 0 + 1)) + 0;
         return array[randomnumber];
     }
-    FireBullet(){        
-        var newBullet=Bullet.CreateBullet(this.position); 
-       // console.log("newbuleet in player "+ JSON.stringify(newBullet));       
-        return newBullet.m_linearVelocity;
+    FireBullet(){
+        var newBullet=Bullet.CreateBullet(this.position);    
+        //console.log(Object.keys(newBullet));     
+        return newBullet.c_position;
     }
 
     IsInBounds(){        
-        console.log("current position"+JSON.stringify(this.body.c_position));
+        //console.log("current position"+JSON.stringify(this.body.c_position));
         return (this.body.c_position.x>=WorldPhysics.xbounds.x && this.body.c_position.x <= WorldPhysics.xbounds.y &&
         this.body.c_position.y>=WorldPhysics.ybounds.x && this.body.c_position.y <= WorldPhysics.ybounds.y)
     }

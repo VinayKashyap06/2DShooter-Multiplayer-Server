@@ -5,6 +5,7 @@ var Player = require("./API/Data Models/Player");
 var FrameService = require("./API/FrameService");
 var WorldPhysics = require("./API/WorldPhysics");
 var SocketData = require("./API/Data Models/SocketData");
+var BulletModel= require("./API/Data Models/Bullet");
 
 
 
@@ -21,7 +22,7 @@ io.on('connection', function (socket) {
     playerList[playerID] = player;
     SocketData.AddSocket(socket, playerID);
     socketList = SocketData.socketList;
-    console.log('A user connected on frame no' + FrameService.GetCurrentFrame());
+    console.log('A user connected on frame no' + FrameService.GetCurrentFrame()+"position"+player.position);
     var obstacleData = WorldPhysics.obstacleData;
     socket.emit(ServerEvents.ON_USER_CONNECTED, { playerID: playerID, playerPosition: player.position, startFrame: (FrameService.GetCurrentFrame() - 3) });
 
@@ -45,7 +46,8 @@ io.on('connection', function (socket) {
     socket.on(ServerEvents.MOVE_FORWARD, function (data) {
         //console.log("move forward called");
         var newpos = player.MoveUp();
-        var nextFrame = FrameService.GetCurrentFrame();
+        var nextFrame = FrameService.GetCurrentFrame()+3;
+        console.log("new pos"+ JSON.stringify(newpos)+"   frame to execute"+nextFrame);
         var playerData = {
             playerID: player.playerID,
             newPosition: newpos
@@ -55,37 +57,28 @@ io.on('connection', function (socket) {
             eventName: ServerEvents.ON_MOVE_FORWARD,
             frameNo: nextFrame
         }
-
-
-        SocketData.SendData(nextFrame, loopData);
-        //console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
-        // socket.emit(ServerEvents.ON_MOVE_FORWARD, { playerID: player.playerID, newPosition: newpos });
-        // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
+        SocketData.SendData(nextFrame, loopData);       
     });
     socket.on(ServerEvents.MOVE_BACKWARD, function (data) {
         var newpos = player.MoveDown();
-        var nextFrame = FrameService.GetCurrentFrame();
+        var nextFrame = FrameService.GetCurrentFrame()+3;
         var playerData = {
             playerID: player.playerID,
             newPosition: newpos
         }
         var loopData = {
             data: playerData,
-            eventName: ServerEvents.ON_MOVE_FORWARD,
+            eventName: ServerEvents.ON_MOVE_BACKWARD,
             frameNo: nextFrame
         }
-        SocketData.SendData(nextFrame, loopData);
-        //console.log("sent data for frame no"+nextFrame);//+"data"+ JSON.stringify(loopData));      
-        // socket.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
-        // socket.broadcast.emit(ServerEvents.ON_MOVE_BACKWARD, { playerID: player.playerID, newPosition: newpos });
+        SocketData.SendData(nextFrame, loopData);     
     });
-    socket.on(ServerEvents.FIRE, function (data) {
-        console.log("on fire calling with velocity");
-        var linearVelocity = player.FireBullet();
-        console.log("on fire calling with velocity"+linearVelocity);
+    socket.on(ServerEvents.FIRE, function (data) {       
+        var bulletPosition = player.FireBullet();                
         var fireData = {
             playerID: playerID,
-            velocity: linearVelocity
+            position: bulletPosition,
+            bulletSpeed: BulletModel.bulletSpeed            
         }
         var loopData = {
             data: fireData,
